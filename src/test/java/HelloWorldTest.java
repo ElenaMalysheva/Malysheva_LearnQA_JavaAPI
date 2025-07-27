@@ -7,9 +7,15 @@ public class HelloWorldTest {
     @Test
     public void testHelloWorld(){
         //System.out.println("Hello World!");
-        Response response = RestAssured
+        /*Response response = RestAssured
                 .get("https://playground.learnqa.ru/api/hello")
                 .andReturn();
+        response.prettyPrint();*/
+
+        Response response = RestAssured
+                .get("https://playground.learnqa.ru/api/get_text")
+                .andReturn();
         response.prettyPrint();
+
     }
 }
