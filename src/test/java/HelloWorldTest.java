@@ -50,7 +50,7 @@ public class HelloWorldTest {
                 .jsonPath();
 
         //String answer = response.get("answer");
-        String name = response.get("answer2"); // нет такого ключа => Null
+        String name = response.get("answer"); // нет такого ключа => Null
 
         //System.out.println(name);
 
