@@ -6,60 +6,33 @@ import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-/*public class HelloWorldTest {
-
-    @Test
-    public void testHelloWorld(){
-        //System.out.println("Hello World!");
-        /*Response response = RestAssured
-                .get("https://playground.learnqa.ru/api/hello")
-                .andReturn();
-        response.prettyPrint();*/
-
-        /*Response response = RestAssured
-                .get("https://playground.learnqa.ru/api/get_text")
-                .andReturn();
-        response.prettyPrint();
-
-    }/*
-
-         */
-
 
 
 public class HelloWorldTest {
 
-    @Test // второе занятие
+    @Test
     public void testRestAssure(){ // это билдер
-        Map<String,String> params = new HashMap<>();
-        params.put("name", "John");
+        Map<String,Object> body = new HashMap<>();
+        body.put("param1", "value1");
+        body.put("param2", "value2");
 
 
-        /*Response response = RestAssured //переменная, которую мы использовали в первой строке
-                .given() // нужна, чтобы объяснить билдеру, что мы добавим параметры запроса
-                //.queryParam("name", "John") // передали 1 параметр
-                .queryParams(params)
-                .get("https://playground.learnqa.ru/api/hello") // вызываем методы, это параметр/ сеттер
-                .andReturn(); // это функция, исполнитель
-        response.prettyPrint();*/
-
-        JsonPath response = RestAssured
+        Response response = RestAssured
                 .given()
-                .queryParams(params)
-                .get("https://playground.learnqa.ru/api/hello")
-                .jsonPath();
+                //.queryParam("param1", "value1")// передача параметров для get запросов
+                //.queryParam("param2", "value2")
+                //.body("param1=value1&param2=value2") // передача параметров в сыром виде
+                //.body("{\"param1\":\"value1\",\"param2\":\"value2\"}") //строка в JSON формате
+                .body(body)
 
-        //String answer = response.get("answer");
-        String name = response.get("answer"); // нет такого ключа => Null
+                //.get("https://playground.learnqa.ru/api/check_type")
+                .post("https://playground.learnqa.ru/api/check_type")
 
-        //System.out.println(name);
+                .andReturn();
 
-        //Добавим условие
-        if (name == null){
-            System.out.println("The key 'answer2' is absent"); //если ключа нет - то выводим дефолтное значение
-        }else{
-            System.out.println(name); // ключ есть - то выводим значение
-        }
+
+
+      response.print();
 
     }
 
