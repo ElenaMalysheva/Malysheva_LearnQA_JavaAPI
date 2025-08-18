@@ -14,8 +14,6 @@ public class HelloWorldTest {
     @Test
     public void testRestAssure(){ // это билдер
         Map<String,Object> data = new HashMap<>();
-
-
         data.put("login", "secret_login2"); //задачем параметры
         data.put("password", "secret_pass2 ");
 
@@ -27,7 +25,6 @@ public class HelloWorldTest {
                 .body(data)
                 .when()
                 .post ("https://playground.learnqa.ru/api/get_auth_cookie") //
-
                 .andReturn();
 
         String responseCookie = responseForGet.getCookie("auth_cookie");
