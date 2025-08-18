@@ -13,28 +13,56 @@ public class HelloWorldTest {
 
     @Test
     public void testRestAssure(){ // это билдер
-        Map<String,Object> headers = new HashMap<>();
-        headers.put("myHeader1", "myValue1"); //задачем параметры
-        headers.put("myHeader2", "myValue2");
+        Map<String,Object> data = new HashMap<>();
+
+
+        data.put("login", "secret_login2"); //задачем параметры
+        data.put("password", "secret_pass2 ");
 
 
 
-        Response response = RestAssured
+        Response responseForGet = RestAssured
                 .given()
                 //.headers(headers)
-                .redirects()
-                .follow(false)
+                .body(data)
                 .when()
-                //.get("https://playground.learnqa.ru/api/show_all_headers") //получаем ответ 303
-                .get("https://playground.learnqa.ru/api/get_303") //получаем ответ 303
+                .post ("https://playground.learnqa.ru/api/get_auth_cookie") //
 
                 .andReturn();
 
-        response.prettyPrint(); // печатает JSON в удобном формате ( полностью)
+        String responseCookie = responseForGet.getCookie("auth_cookie");
 
-        //Headers responseHeaders = response.getHeaders();//печатаем все заголовки
-        String locationHeader = response.getHeader("Location");
-        System.out.println(locationHeader);
+        Map<String,String> cookies = new HashMap<>();
+
+        if (responseCookie != null){
+            cookies.put("auth_cookie",responseCookie);
+        }
+
+        Response responseForCheck = RestAssured
+                .given()
+                .body(data)
+                .cookies(cookies)
+                .when()
+                .post("https://playground.learnqa.ru/api/check_auth_cookie")
+                .andReturn();
+
+        responseForCheck.print();
+
+        /* System.out.println("\nPretty text:"); // печатаем полный ответ ( будет пустым)
+        response.prettyPrint();
+
+        System.out.println("\nHeaders:");
+        Headers responseHeaders = response.getHeaders();
+        System.out.println(responseHeaders); // печатаем все хедерс
+
+        System.out.println("\nCookies:");
+        Map<String,String> responseCookies = response.getCookies();
+        System.out.println(responseCookies); // печатаем куки */
+
+        //String responseCookie = response.getCookie("auth_cookie");
+        //System.out.println(responseCookie); // вывод только куки
+
+
 
 
 
