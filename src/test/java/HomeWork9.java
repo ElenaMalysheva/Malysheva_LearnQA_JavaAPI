@@ -32,18 +32,10 @@ public class HomeWork9 {
                 .andReturn();
 
 
-        //response.prettyPrint(); // печатает JSON в удобном формате ( полностью)
-
-
         // Получение cookie
         String responCookie = response.getCookie("auth_cookie");
         System.out.println("auth_cookie: " + responCookie);
 
-
-
-
-        //Map<String,String> cookieSecondStep = new HashMap<>();
-        //cookieSecondStep.put("auth_cookie",responCookie );
 
         Response responseSecond = RestAssured //запрос с token ДО того, как задача готова
 
@@ -51,9 +43,7 @@ public class HomeWork9 {
                 .cookie("auth_cookie", responCookie)
                 .get("https://playground.learnqa.ru/ajax/api/check_auth_cookie") //
                 .andReturn();
-
-        //System.out.println("Результат второго запроса:  ");
-        //responseSecond.prettyPrint();
+        
 
         String secondResponse = responseSecond.asString();
             System.out.println(secondResponse);
