@@ -9,6 +9,7 @@ public class HomeWork5 {
     public void testRestAssure(){
         JsonPath response = RestAssured
                 .given()
+
                 .get("https://playground.learnqa.ru/api/get_json_homework")
                 .jsonPath();
 

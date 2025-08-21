@@ -41,7 +41,7 @@ public class HomeWork8 {
 
         Thread.sleep((secondsResponseInt +1) *1000); // делаем паузу
 
-        Response responseThird = RestAssured //запрос с token ДО того, как задача готова
+        Response responseThird = RestAssured //запрос с token после того, как задача готова
 
                 .given()
                 .queryParams(cookieSecondStep)
