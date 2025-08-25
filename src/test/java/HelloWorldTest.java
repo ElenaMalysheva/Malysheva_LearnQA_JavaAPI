@@ -4,6 +4,9 @@ import io.restassured.http.Headers;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,26 +16,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HelloWorldTest {
 
-    @Test
-    public void testHelloMethodWithoutName(){
-        JsonPath response = RestAssured
-                .get("https://playground.learnqa.ru/api/hello")
-                .jsonPath();
-        String answer = response.getString("answer");
-        assertEquals("Hello, someone", answer, "The answer is not expected");
-    }
+    @ParameterizedTest // в такой тест будут передаваться параметры и он будет запускаться столько раз, сколько у нас есть параметров
+    @ValueSource(strings = {"","John", "Pete"}) // наборы параметров
+    public void testHelloMethodWithoutName(String name){
+        Map<String, String> queryParams = new HashMap<>();
 
-    @Test
-    public void testHelloMethodWithName(){
-        String name = "Username"; // передадим переменную имя
+        if(name.length()>0){
+            queryParams.put("name", name);
+        }
+
 
         JsonPath response = RestAssured
                 .given()
-                .queryParam("name", name)
+                .queryParams(queryParams)
                 .get("https://playground.learnqa.ru/api/hello")
                 .jsonPath();
         String answer = response.getString("answer");
-        assertEquals("Hello, " + name, answer, "The answer is not expected");
+        String expectedName = (name.length() >0) ? name : "someone"; // тернарный оператор == однострочный if
+        assertEquals("Hello, "+ expectedName, answer, "The answer is not expected");
     }
 
     }
