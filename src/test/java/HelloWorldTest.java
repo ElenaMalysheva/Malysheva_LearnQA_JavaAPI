@@ -14,23 +14,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class HelloWorldTest {
 
     @Test
-    public void testFor200(){ // это билдер
-
-        Response response = RestAssured
-                .get ("https://playground.learnqa.ru/api/map") //
-                .andReturn();
-        //assertTrue(response.statusCode()==200, "unexpected status code"); //проверяет булевое значение
-        assertEquals(200, response.statusCode(), "unexpected status code"); //увидим ожидаемое и фактическое значение
-        }
-
-    @Test
-    public void testFor404() { // это билдер
-
-        Response response = RestAssured
-                .get("https://playground.learnqa.ru/api/map2") //
-                .andReturn();
-        assertEquals(404, response.statusCode(), "unexpected status code");
+    public void testHelloMethodWithoutName(){
+        JsonPath response = RestAssured
+                .get("https://playground.learnqa.ru/api/hello")
+                .jsonPath();
+        String answer = response.getString("answer");
+        assertEquals("Hello, someone", answer, "The answer is not expected");
     }
 
+    @Test
+    public void testHelloMethodWithName(){
+        String name = "Username"; // передадим переменную имя
+
+        JsonPath response = RestAssured
+                .given()
+                .queryParam("name", name)
+                .get("https://playground.learnqa.ru/api/hello")
+                .jsonPath();
+        String answer = response.getString("answer");
+        assertEquals("Hello, " + name, answer, "The answer is not expected");
+    }
 
     }
